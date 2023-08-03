@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script defer src="app.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Handjet:wght@300&display=swap" rel="stylesheet">
+    <title>Tic Tac Toe</title>
+</head>
+<body>
+    <div class="container">
+        <section class="welcome-msg">
+            <div>
+                <legend>Player 1:</legend>
+                <input class="mb-3 input-group-text" id="input-name-one" type="text" placeholder="Enter 1st player name">
+            </div>
+            <div>
+                <legend>Player 2:</legend>
+                <input class="mb-3 input-group-text" id="input-name-two" type="text" placeholder="Enter 2nd player name">
+            </div>
+            <div class="hidden error-msg">
+                <p>Please enter users name!</p>
+            </div>
+                <button class="btn btn-warning begin"> Begin</button>
+        </section>
+        <section class="game-board hidden">
+            <h1 class="py-3">Tic-Tac-Toe</h1>
+            <table>
+                <tr>
+                    <td class="td_game" data-row="0" data-col="0">
+                        <p class="h1"></p>
+                    </td>
+                    <td class="td_game" data-row="0" data-col="1">
+                        <p class="h1"></p>
+                    </td>
+                    <td class="td_game" data-row="0" data-col="2">
+                        <p class="h1"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td_game" data-row="1" data-col="0">
+                        <p class="h1"></p>
+                    </td>
+                    <td class="td_game" data-row="1" data-col="1">
+                        <p class="h1"></p>
+                    </td>
+                    <td class="td_game" data-row="1" data-col="2">
+                        <p class="h1"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td_game" data-row="2" data-col="0">
+                        <p class="h1"></p>
+                    </td>
+                    <td class="td_game" data-row="2" data-col="1">
+                        <p class="h1"></p>
+                    </td>
+                    <td class="td_game" data-row="2" data-col="2">
+                        <p class="h1"></p>
+                    </td>
+                </tr>
+            </table>
+            <div class="players-name">
+                <h3 id="player-1"></h3>
+                <h3 id="player-2"></h3>
+            </div>
+            <input type="button" value="Restart" class="btn btn-warning mt-5">
+        </section> 
+    </div>
+</body>
+</html>

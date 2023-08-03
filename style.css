@@ -1,0 +1,29 @@
+body {
+    background-color: rgb(123, 122, 122);
+    font-family: 'Handjet', cursive;
+}
+    
+
+.game-board, .welcome-msg{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.hidden{
+    display: none;
+}
+
+.error-msg {
+    color: rgb(152, 28, 28);
+}
+
+.td_game{
+    height: 100px;
+    width: 100px;
+    border: 1px solid black;
+    vertical-align: middle;
+    text-align: center;
+}
