@@ -6,9 +6,11 @@ const inputNameOne = document.querySelector('#input-name-one');
 const inputNameTwo = document.querySelector('#input-name-two');
 const player1Name = document.querySelector('#player-1');
 const player2Name = document.querySelector('#player-2')
-
+const regameBtn = document.querySelector('#regame-btn')
+const displayResult  = document.querySelector('.display-result');
 
 //global variables
+let cells = document.querySelectorAll('.td_game')
 let currentPlayer = 'X'
 const winCombos = [
     //horizontal
@@ -23,8 +25,15 @@ const winCombos = [
     [0, 4, 8],
     [6, 4, 2]
 ]
-
 let gameState = Array(9).fill('');
+
+
+function clickEvent(){
+    //getting all the data from html
+    cells.forEach(cell => {
+        cell.addEventListener('click',handleCellClick, {once : true});
+    })
+}
 
 function initializeGame(){
     //check users name
@@ -39,8 +48,8 @@ function initializeGame(){
             errorMsg.classList.add('hidden');
         }, 1000);
     }
+    clickEvent();
 }
-
 
 
 //when each board cell is clicked
@@ -82,14 +91,18 @@ function updateGame(row, col){
     //check for win
     if(checkWin()){
         console.log(`Player ${currentPlayer} won`)
+        displayResult.classList.remove('hidden');
+        displayResult.querySelector('p').textContent = `${currentPlayer} has won`;
         return;
     }
 
     //check for draw
     if(gameState.every(cell => cell !== '')){
         console.log("It's a draw!");
+        displayResult.querySelector('p').textContent = `It's draw!`
     }
 }
+
 
 //check if currentplayer matches the winning combo
 function checkWin(){
@@ -103,17 +116,13 @@ function checkWin(){
 }
 
 function restartGame(){
-    let gameState = Array(9).fill('');
-
+    displayResult.classList.add('hidden');
+    currentPlayer = 'X';
+    gameState = Array(9).fill('');
+    document.querySelectorAll('.td_game p').forEach(p => p.textContent = '');
+    clickEvent();
 }
 
-function checkDraw(){
-}
 
-//getting all the data from html
-document.querySelectorAll('.td_game').forEach(cell => {
-    cell.addEventListener('click',handleCellClick, {once : true});
-})
-
-
+regameBtn.addEventListener('click', restartGame);
 beginBtn.addEventListener('click', initializeGame);
