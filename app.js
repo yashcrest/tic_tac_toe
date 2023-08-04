@@ -8,6 +8,7 @@ const player1Name = document.querySelector('#player-1');
 const player2Name = document.querySelector('#player-2')
 
 
+//global variables
 let currentPlayer = 'X'
 const winCombos = [
     //horizontal
@@ -22,6 +23,8 @@ const winCombos = [
     [0, 4, 8],
     [6, 4, 2]
 ]
+
+let gameState = Array(9).fill('');
 
 function initializeGame(){
     //check users name
@@ -38,7 +41,9 @@ function initializeGame(){
     }
 }
 
-//cell Click
+
+
+//when each board cell is clicked
 function handleCellClick(event){
 
     //get the clicked cell element
@@ -47,6 +52,7 @@ function handleCellClick(event){
     //get row and column from clicked cell
     const row = parseInt(cell.dataset.row);
     const col = parseInt(cell.dataset.col);
+    console.log(`row:${row}, col:${col}`)
 
     //change color of "O" player
     if(currentPlayer ==='O'){
@@ -68,12 +74,40 @@ function changePlayer(){
 
 
 function updateGame(row, col){
-    let memory = [row, col]
-    if(currentPlayer === 'X'){
-        console.log(`X played in : ${memory}`);
-    } else {
-        console.log(`O played in ${memory}`);
+    //convert row and col to index in the game state array
+    const index = row * 3 + col;
+    gameState[index] = currentPlayer;
+    console.log(gameState);
+
+    //check for win
+    if(checkWin()){
+        console.log(`Player ${currentPlayer} won`)
+        return;
     }
+
+    //check for draw
+    if(gameState.every(cell => cell !== '')){
+        console.log("It's a draw!");
+    }
+}
+
+//check if currentplayer matches the winning combo
+function checkWin(){
+    for(const combo of winCombos){
+        if(gameState[combo[0]] === currentPlayer &&
+            gameState[combo[1]] === currentPlayer &&
+            gameState[combo[2]] === currentPlayer) {
+                return true
+            }
+    }
+}
+
+function restartGame(){
+    let gameState = Array(9).fill('');
+
+}
+
+function checkDraw(){
 }
 
 //getting all the data from html
