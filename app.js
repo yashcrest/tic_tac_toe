@@ -5,11 +5,11 @@ const beginBtn = document.querySelector('.begin');
 const inputNameOne = document.querySelector('#input-name-one');
 const inputNameTwo = document.querySelector('#input-name-two');
 const player1Name = document.querySelector('#player1-name');
-const player2Name = document.querySelector('#player2-name')
-const player1Score = document.querySelector('#player1-score')
-const player2Score = document.querySelector('#player2-score')
-const regameBtn = document.querySelector('#regame-btn')
-const newgameBtn = document.querySelector('#newGame-btn')
+const player2Name = document.querySelector('#player2-name');
+const player1Score = document.querySelector('#player1-score');
+const player2Score = document.querySelector('#player2-score');
+const regameBtn = document.querySelector('#regame-btn');
+const newgameBtn = document.querySelector('#newGame-btn');
 const displayResult  = document.querySelector('.display-result');
 const playerScore = document.querySelector('#player-score');
 
@@ -98,7 +98,6 @@ function changePlayer(){
    currentPlayer = currentPlayer === 'X' ? 'O' :'X';
 }
 
-
 function updateGame(row, col){
     //convert row and col to index in the game state array
     const index = row * 3 + col;
@@ -108,6 +107,7 @@ function updateGame(row, col){
     //check for win
     const winComboIndex = checkWin()
     if(winComboIndex !== -1){
+        applyWinningStyle(winComboIndex);
         console.log(`Player ${currentPlayer} won`)
         displayResult.classList.remove('hidden');
         displayResult.querySelector('p').textContent = `${currentPlayer} has won`;
@@ -120,7 +120,6 @@ function updateGame(row, col){
             console.log(`O has won ${O_Score} game`)
             player2Score.textContent = `${O_Score}`;
         } 
-        // applyWinningStyle(winComboIndex);
         removeClickEvent();
         return;
     }
@@ -134,14 +133,23 @@ function updateGame(row, col){
     }
 }
 
-// function winComboIndex(winComboIndex){
-//     const winningCombo = winCombos[winComboIndex];
+function applyWinningStyle(winComboIndex) {
+    //getting winning combo from winCombos array
+    const winningCombo = winCombos[winComboIndex];
 
-//     //Apply appropriate CSS class based on winning combo
-//     if(winningCombo[0]% 3 === 0){ //Horizontal win
+    //map each index of the winning combo to its corresponding row and column
+    const winningCellCoordinates = winningCombo.map(index => {
+        return {
+            row:Math.floor(index /3),
+            col: index % 3
+        };
+    })
 
-//     }
-// }
+    //apply winning class to each winning cell
+    winningCellCoordinates.forEach(coords => {
+        cells[index].classList.add('winning-cell');
+    })
+}
 
 //check if currentplayer matches the winning combo
 function checkWin(){
