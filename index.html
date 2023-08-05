@@ -65,10 +65,18 @@
                     </td>
                 </tr>
             </table>
-            <div class="players-name d-flex justify-content-between">
-                <h3 id="player-1"></h3>
-                <h3 id="player-2"></h3>
-            </div>
+            <!-- Score board -->
+            <table id="player-score">
+                <tr>
+                    <th id="player1-name" class="mx-5 lead"></th>
+                    <th id="player2-name" class="lead"></th>
+                </tr>
+                <tr>
+                    <td id="player1-score"></td>
+                    <td id="player2-score"></td>
+                </tr>
+            </table>
+            <!-- Results board -->
             <div class="display-result hidden">
                 <p class="msg-element h1"></p>
                 <input type="button" title="New Game" value="New Game" class="btn btn-warning mt-5" id="newGame-btn">
@@ -78,3 +86,4 @@
     </div>
 </body>
 </html>
+

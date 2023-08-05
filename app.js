@@ -4,14 +4,21 @@ const errorMsg = document.querySelector('.error-msg')
 const beginBtn = document.querySelector('.begin');
 const inputNameOne = document.querySelector('#input-name-one');
 const inputNameTwo = document.querySelector('#input-name-two');
-const player1Name = document.querySelector('#player-1');
-const player2Name = document.querySelector('#player-2')
+const player1Name = document.querySelector('#player1-name');
+const player2Name = document.querySelector('#player2-name')
+const player1Score = document.querySelector('#player1-score')
+const player2Score = document.querySelector('#player2-score')
 const regameBtn = document.querySelector('#regame-btn')
+const newgameBtn = document.querySelector('#newGame-btn')
 const displayResult  = document.querySelector('.display-result');
+const playerScore = document.querySelector('#player-score');
+
 
 //global variables
 let cells = document.querySelectorAll('.td_game')
 let currentPlayer = 'X'
+let X_Score = 0;
+let O_Score = 0;
 const winCombos = [
     //horizontal
     [0, 1, 2],
@@ -25,14 +32,21 @@ const winCombos = [
     [0, 4, 8],
     [6, 4, 2]
 ]
-let gameState = Array(9).fill('');
 
+let gameState = Array(9).fill('');
 
 function clickEvent(){
     //getting all the data from html
     cells.forEach(cell => {
         cell.addEventListener('click',handleCellClick, {once : true});
     })
+}
+
+//trigger this after someone wins the game or draw happens
+function removeClickEvent(){
+     cells.forEach(cell => {
+        cell.removeEventListener('click', handleCellClick)
+     })
 }
 
 function initializeGame(){
@@ -48,6 +62,8 @@ function initializeGame(){
             errorMsg.classList.add('hidden');
         }, 1000);
     }
+    inputNameOne.value = ''
+    inputNameTwo.value = ''
     clickEvent();
 }
 
@@ -58,6 +74,7 @@ function handleCellClick(event){
     //get the clicked cell element
     const cell = event.target;
     const pElement = cell.querySelector('p')
+
     //get row and column from clicked cell
     const row = parseInt(cell.dataset.row);
     const col = parseInt(cell.dataset.col);
@@ -66,17 +83,17 @@ function handleCellClick(event){
     //change color of "O" player
     if(currentPlayer ==='O'){
         pElement.style.color = 'white'
+    } else if (currentPlayer === 'X'){
+        pElement.style.color = 'black';
     }
 
     //rendering event to HTML
     pElement.textContent = currentPlayer;
     updateGame(row, col)
     changePlayer();
-
-
 }
 
-//handle turns
+//switch players
 function changePlayer(){
    currentPlayer = currentPlayer === 'X' ? 'O' :'X';
 }
@@ -86,33 +103,56 @@ function updateGame(row, col){
     //convert row and col to index in the game state array
     const index = row * 3 + col;
     gameState[index] = currentPlayer;
-    console.log(gameState);
+    console.log(`GameState: ${gameState}`);
 
     //check for win
-    if(checkWin()){
+    const winComboIndex = checkWin()
+    if(winComboIndex !== -1){
         console.log(`Player ${currentPlayer} won`)
         displayResult.classList.remove('hidden');
         displayResult.querySelector('p').textContent = `${currentPlayer} has won`;
+        if(currentPlayer === 'X'){
+            X_Score ++;
+            console.log(`X has won ${X_Score} game`)
+            player1Score.textContent = `${X_Score}`;
+        } else {
+            O_Score ++;
+            console.log(`O has won ${O_Score} game`)
+            player2Score.textContent = `${O_Score}`;
+        } 
+        // applyWinningStyle(winComboIndex);
+        removeClickEvent();
         return;
     }
 
     //check for draw
     if(gameState.every(cell => cell !== '')){
         console.log("It's a draw!");
+        displayResult.classList.remove('hidden');
         displayResult.querySelector('p').textContent = `It's draw!`
+        removeClickEvent();
     }
 }
 
+// function winComboIndex(winComboIndex){
+//     const winningCombo = winCombos[winComboIndex];
+
+//     //Apply appropriate CSS class based on winning combo
+//     if(winningCombo[0]% 3 === 0){ //Horizontal win
+
+//     }
+// }
 
 //check if currentplayer matches the winning combo
 function checkWin(){
-    for(const combo of winCombos){
+    for(const [index, combo] of winCombos){
         if(gameState[combo[0]] === currentPlayer &&
             gameState[combo[1]] === currentPlayer &&
             gameState[combo[2]] === currentPlayer) {
-                return true
+                return index //Return index of the winning combo
             }
     }
+    return -1 //Return -1 if no win
 }
 
 function restartGame(){
@@ -123,6 +163,18 @@ function restartGame(){
     clickEvent();
 }
 
+//newGame Function
+function newGame(){
+    X_Score = 0;
+    Y_Score = 0;
+    player1Score.textContent =''
+    player2Score.textContent =''
+    restartGame();
+    welcomeMSG.classList.remove('hidden');
+    gameBoard.classList.add('hidden');
+}
 
+
+newgameBtn.addEventListener('click', newGame);
 regameBtn.addEventListener('click', restartGame);
 beginBtn.addEventListener('click', initializeGame);
