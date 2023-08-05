@@ -16,6 +16,7 @@ const playerScore = document.querySelector('#player-score');
 
 //global variables
 let cells = document.querySelectorAll('.td_game')
+let gameState = Array(9).fill('');
 let currentPlayer = 'X'
 let X_Score = 0;
 let O_Score = 0;
@@ -33,7 +34,6 @@ const winCombos = [
     [6, 4, 2]
 ]
 
-let gameState = Array(9).fill('');
 
 function clickEvent(){
     //getting all the data from html
@@ -101,6 +101,7 @@ function changePlayer(){
 function updateGame(row, col){
     //convert row and col to index in the game state array
     const index = row * 3 + col;
+    console.log(`${currentPlayer} is on ${index}`);
     gameState[index] = currentPlayer;
     console.log(`GameState: ${gameState}`);
 
@@ -110,7 +111,7 @@ function updateGame(row, col){
         applyWinningStyle(winComboIndex);
         console.log(`Player ${currentPlayer} won`)
         displayResult.classList.remove('hidden');
-        displayResult.querySelector('p').textContent = `${currentPlayer} has won`;
+        displayResult.querySelector('p').textContent = `${currentPlayer} won`;
         if(currentPlayer === 'X'){
             X_Score ++;
             console.log(`X has won ${X_Score} game`)
@@ -133,6 +134,19 @@ function updateGame(row, col){
     }
 }
 
+//check if currentplayer matches the winning combo
+function checkWin(){
+    for(let index =0; index < winCombos.length;index++){
+        const combo = winCombos[index];
+        if(gameState[combo[0]] === currentPlayer &&
+            gameState[combo[1]] === currentPlayer &&
+            gameState[combo[2]] === currentPlayer) {
+                return index //Return index of the winning combo
+            }
+    }
+    return -1 //Return -1 if no win
+}
+
 function applyWinningStyle(winComboIndex) {
     //getting winning combo from winCombos array
     const winningCombo = winCombos[winComboIndex];
@@ -147,34 +161,28 @@ function applyWinningStyle(winComboIndex) {
 
     //apply winning class to each winning cell
     winningCellCoordinates.forEach(coords => {
-        cells[index].classList.add('winning-cell');
+        const cellIndex = coords.row * 3 + coords.col;
+        cells[cellIndex].classList.add('winning-cell');
     })
 }
 
-//check if currentplayer matches the winning combo
-function checkWin(){
-    for(const [index, combo] of winCombos){
-        if(gameState[combo[0]] === currentPlayer &&
-            gameState[combo[1]] === currentPlayer &&
-            gameState[combo[2]] === currentPlayer) {
-                return index //Return index of the winning combo
-            }
-    }
-    return -1 //Return -1 if no win
-}
-
 function restartGame(){
+    console.log('restarting game ....')
     displayResult.classList.add('hidden');
     currentPlayer = 'X';
     gameState = Array(9).fill('');
-    document.querySelectorAll('.td_game p').forEach(p => p.textContent = '');
+    document.querySelectorAll('.td_game').forEach(cell => {
+        cell.querySelector('p').textContent = '';
+        cell.classList.remove('winning-cell');
+    });
     clickEvent();
 }
 
 //newGame Function
 function newGame(){
+    console.log('new game..')
     X_Score = 0;
-    Y_Score = 0;
+    O_Score = 0;
     player1Score.textContent =''
     player2Score.textContent =''
     restartGame();
