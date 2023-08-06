@@ -54,8 +54,8 @@ function initializeGame(){
     if(inputNameOne.value.trim() !== '' && inputNameTwo.value.trim() !== ''){
         gameBoard.classList.remove('hidden');
         welcomeMSG.classList.add('hidden');
-        player1Name.textContent = inputNameOne.value;
-        player2Name.textContent = inputNameTwo.value;
+        player1Name.textContent = inputNameOne.value + ": ";
+        player2Name.textContent = inputNameTwo.value + ": ";
     } else { 
         errorMsg.classList.remove('hidden');
         setTimeout(() => {
