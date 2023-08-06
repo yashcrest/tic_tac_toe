@@ -36,4 +36,5 @@ Algorithmic Thinking:
 Coming up with the logic to check for a winning combination or a draw situation.
 
 ## Working Demo
-![tic-tac-toe](https://github.com/yashcrest/tic_tac_toe/assets/79971012/7b1c93ce-0f71-4a75-81a2-3ac2221138cc)
+![tic-tac-toe](https://github.com/yashcrest/tic_tac_toe/assets/79971012/93d7d3a6-6295-4539-97f1-91e262c6dc71)
+
